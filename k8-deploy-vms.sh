@@ -40,6 +40,9 @@ sudo apt-get -y install kubeadm kubelet kubernetes-cni --allow-unauthenticated
 #Disable swap as is not supported on kubernetes
 sudo swapoff -a
 
+# Setup docker daemon to use systemd as Cgroup, as default docker use cgroupfs and kubernetes instead recommend to use systemd.
+sudo wget https://raw.githubusercontent.com/victorbecerragit/k8-test/master/docker-daemon.sh -O - | bash -x
+
 EOF
 
 #Check your current configuration of gcloud.
@@ -66,7 +69,7 @@ gcloud compute instances create k8-worker-2 --machine-type g1-small  \
 --metadata-from-file startup-script=startup_script.sh \
 --image-family ubuntu-minimal-1804-lts  --image-project ubuntu-os-cloud --subnet default --zone us-central1-c
 
-#Enable port 80 for http in "default" network.
+#Enable port 80 for http in "default" network, replace project for "your_project_name".
 gcloud compute --project=challenge-lab-228920 firewall-rules create nginx-allow-http --direction=INGRESS \
 --network=default --action=ALLOW --rules=tcp:80 --source-ranges=0.0.0.0/0
 
