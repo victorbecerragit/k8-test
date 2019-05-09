@@ -11,13 +11,15 @@ This lab assume that you have already a user/service account configured on GCP.
 Also, this lab require enable login from gcloud CLI.
 
 1 - Deploy the vms from google CLI desktop
-wget https://raw.githubusercontent.com/victorbecerragit/k8-test/master/k8-deploy-vms.sh
+
+$wget https://raw.githubusercontent.com/victorbecerragit/k8-test/master/k8-deploy-vms.sh
+
 bash -x k8-deploy-vms.sh
 
 2 - Login to the Master and setup kubernet
 
-ssh master
-wget https://raw.githubusercontent.com/victorbecerragit/k8-test/master/k8-setup-master.sh
+login ssh master
+$wget https://raw.githubusercontent.com/victorbecerragit/k8-test/master/k8-setup-master.sh
 
 bash -x k8-setup-master.sh
 
