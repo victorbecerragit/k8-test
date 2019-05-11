@@ -53,5 +53,7 @@ k8-worker-1                us-central1-b   g1-small                    10.128.0.
 k8-worker-2                us-central1-c   g1-small                    10.128.0.41  35.239.94.25     RUNNING
 
 
-#Login to the GCE VM with your local user (same user which is the service account defined on GCP for your project)
+#Login to the GCE VM with your local user 
+(same user which is the service account defined on GCP for your project)
+
 ssh <local_user>@104.198.169.234
