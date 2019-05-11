@@ -43,10 +43,15 @@ gcloud compute project-info add-metadata --metadata enable-oslogin=TRUE
 gcloud compute os-login ssh-keys add --key-file ~/id_rsa.pub
 
 gcloud compute instances list
+
 NAME                       ZONE            MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
+
 k8-master                  us-central1-a   n1-standard-1               10.128.0.39  104.198.169.234  RUNNING
+
 k8-worker-1                us-central1-b   g1-small                    10.128.0.40  35.238.109.68    RUNNING
+
 k8-worker-2                us-central1-c   g1-small                    10.128.0.41  35.239.94.25     RUNNING
+
 
 #Login to the GCE VM with your local user (same user which is the service account defined on GCP for your project)
 ssh <local_user>@104.198.169.234
