@@ -26,8 +26,11 @@ bash -x k8-setup-master.sh
 
 -Ref:
 .https://kubernetes.io/docs/setup/cri/
+
 .https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
+
 .https://medium.com/infrastructure-adventures/centralized-ssh-login-to-google-compute-engine-instances-d00f8654f379
+
 
 #Setup gcloud init (define user and project to use)
 gcloud init
