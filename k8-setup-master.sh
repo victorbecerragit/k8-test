@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#set -xe
+##set -xe
 set -x
 
 export API_ADDR=`hostname -i`
