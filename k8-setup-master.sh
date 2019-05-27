@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -xe
+#set -xe
+set -x
 
 export API_ADDR=`hostname -i`
 export DNS_DOMAIN="k8s.local"
