@@ -18,7 +18,7 @@ bash install-logging-agent.sh
 sudo apt-get -y update  && sudo apt-get -y upgrade
 
 #Install tools packages like apt-add-repository, apt-transport-https , bash-completion
-sudo apt-get -y install software-properties-common ca-certificates curl apt-transport-https bash-completion
+sudo apt-get -y install software-properties-common ca-certificates curl apt-transport-https bash-completion gnupg2
 
 #Download and add the apt-key from google repository
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
