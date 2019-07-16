@@ -8,7 +8,7 @@ bash install-logging-agent.sh
 sudo apt-get -y update  && sudo apt-get -y upgrade
 
 #Install tools packages like apt-add-repository, apt-transport-https , bash-completion
-sudo apt-get -y install software-properties-common ca-certificates curl apt-transport-https bash-completion
+sudo apt-get -y install software-properties-common ca-certificates curl apt-transport-https bash-completion gnupg2
 
 #Download and add the apt-key from google repository
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
@@ -29,4 +29,7 @@ sudo apt-get -y install kubeadm kubelet kubernetes-cni --allow-unauthenticated
 
 #Disable swap as is not supported on kubernetes
 sudo swapoff -a
+
+# Setup docker daemon to use systemd as Cgroup, as default docker use cgroupfs and kubernetes instead recommend to use systemd.
+sudo wget https://raw.githubusercontent.com/victorbecerragit/k8-test/master/docker-daemon.sh -O - | bash -x
 
