@@ -11,7 +11,7 @@
 
 TIMEOUT_FROM_METADATA=$(curl -H Metadata-Flavor:Google http://metadata.google.internal/computeMetadata/v1/instance/attributes/SELF_DESTRUCT_INTERVAL_MINUTES -s)
 
-if [ -z "$TIMEOUT_FROM_METADATA" ]
+if [ -z "$TIMEOUT_FROM_METADATA" ] || [ $TIMEOUT_FROM_METADATA == 0 ] 
   then
     TIMEOUT=1440
   else
