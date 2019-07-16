@@ -9,7 +9,7 @@ set -x
 project_ID=`gcloud projects list --format='value(projectId)' |grep kube-project`
 
 #Self destruct time
-delete_vm=20
+delete_vm=0
 
 #Startup_script that will be executed on each VM during the first boot.
 #Install required packages in all VMs, included docker and kubernetes
