@@ -8,6 +8,9 @@ set -x
 #Setup project
 project_ID=`gcloud projects list --format='value(projectId)' |grep kube-project`
 
+#Self destruct time
+delete_vm=20
+
 #Startup_script that will be executed on each VM during the first boot.
 #Install required packages in all VMs, included docker and kubernetes
 cat > startup_script.sh <<EOF
@@ -46,25 +49,9 @@ sudo swapoff -a
 # Setup docker daemon to use systemd as Cgroup, as default docker use cgroupfs and kubernetes instead recommend to use systemd.
 sudo wget https://raw.githubusercontent.com/victorbecerragit/k8-test/master/docker-daemon.sh -O - | bash -x
 
-#self-destruts VM after 7 minutes
+# self-destruts VM after 20 minutes
 # https://github.com/davidstanke/samples/tree/master/self-destructing-vm
-# --metadata SELF_DESTRUCT_INTERVAL_MINUTES=7
-
-# use this as a startup script for a compute instance and it will self-destruct after specified interval
-# (default = 2 hours)
-# retrieve interval from metadata service (if available)
-TIMEOUT_FROM_METADATA=$(curl -H Metadata-Flavor:Google http://metadata.google.internal/computeMetadata/v1/instance/attributes/SELF_DESTRUCT_INTERVAL_MINUTES -s)
-
-if [ -z "$TIMEOUT_FROM_METADATA" ]
-then
-    TIMEOUT=120
-    else
-        TIMEOUT=$TIMEOUT_FROM_METADATA
-fi
-
-# schedule the instance to delete itself
-echo "gcloud compute instances delete $(hostname) --zone \
-$(curl -H Metadata-Flavor:Google http://metadata.google.internal/computeMetadata/v1/instance/zone -s | cut -d/ -f4) -q" | at Now + $TIMEOUT Minutes
+sudo wget https://raw.githubusercontent.com/victorbecerragit/k8-test/master/self-destruct.sh -O - | bash -x
 
 EOF
 
@@ -78,7 +65,7 @@ echo "Default project : $project_ID \n"
 echo " Create VM Master \n"
 gcloud compute instances create k8-master --machine-type n1-standard-1  \
 --scopes https://www.googleapis.com/auth/devstorage.full_control,https://www.googleapis.com/auth/compute \
---metadata SELF_DESTRUCT_INTERVAL_MINUTES=7 \
+--metadata SELF_DESTRUCT_INTERVAL_MINUTES=$delete_vm \
 --metadata-from-file startup-script=startup_script.sh \
 --image-family ubuntu-minimal-1804-lts  --image-project ubuntu-os-cloud --subnet default --zone us-central1-a
 
@@ -86,7 +73,7 @@ gcloud compute instances create k8-master --machine-type n1-standard-1  \
 echo " Create Node Worker1 \n"
 gcloud compute instances create k8-worker-1 --machine-type g1-small  \
 --scopes https://www.googleapis.com/auth/devstorage.full_control,https://www.googleapis.com/auth/compute \
---metadata SELF_DESTRUCT_INTERVAL_MINUTES=7 \
+--metadata SELF_DESTRUCT_INTERVAL_MINUTES=$delete_vm \
 --metadata-from-file startup-script=startup_script.sh \
 --image-family ubuntu-minimal-1804-lts  --image-project ubuntu-os-cloud --subnet default --zone us-central1-b
 
@@ -94,7 +81,7 @@ gcloud compute instances create k8-worker-1 --machine-type g1-small  \
 echo " Create VM Worker2 \n"
 gcloud compute instances create k8-worker-2 --machine-type g1-small  \
 --scopes https://www.googleapis.com/auth/devstorage.full_control,https://www.googleapis.com/auth/compute \
---metadata SELF_DESTRUCT_INTERVAL_MINUTES=7 \
+--metadata SELF_DESTRUCT_INTERVAL_MINUTES=$delete_vm \
 --metadata-from-file startup-script=startup_script.sh \
 --image-family ubuntu-minimal-1804-lts  --image-project ubuntu-os-cloud --subnet default --zone us-central1-c
 
