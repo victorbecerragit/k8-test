@@ -33,6 +33,14 @@ bash -x k8-setup-master.sh
 
 .https://medium.com/infrastructure-adventures/centralized-ssh-login-to-google-compute-engine-instances-d00f8654f379
 
+3 - Join each worker to the cluster
+login as kube user :
+
+$kubeadm token create --ttl 0 --print-join-command
+
+  - Join each worker to the cluster , login as root:
+
+#kubeadm join 10.128.0.25:6443 --token ih0g2b.nqwskxhjtmccly4e     --discovery-token-ca-cert-hash sha256:07cca9f1d1bb1464240da15bb525efc0cdad96961856ad0850afec5cf09c6cb7
 
 #Setup gcloud init (define user and project to use)
 gcloud init
