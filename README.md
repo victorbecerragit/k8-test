@@ -27,10 +27,10 @@ $wget https://raw.githubusercontent.com/victorbecerragit/k8-test/master/k8-setup
 bash -x k8-setup-master.sh
 
 
-3 - Join each worker to the cluster
-login as kube user :
+3 - Join each worker to the cluster (valid for 24h)
+login as root :
 
-$kubeadm token create --ttl 0 --print-join-command
+$kubeadm token create --ttl 24h --print-join-command
 
   - Join each worker to the cluster , login as root:
 
