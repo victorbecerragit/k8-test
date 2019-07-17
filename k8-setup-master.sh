@@ -17,7 +17,8 @@ sudo usermod -aG sudo k8-admin
 sudo usermod --password $(openssl passwd -1 password) k8-admin
 echo "k8-admin ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/k8-admin
 
-cat > /home/k8-admin/k8-setup.sh <<EOF
+sudo su k8-admin sh -c'touch /home/k8-admin/k8-setup.sh'
+sudo su k8-admin sh -c'cat > /home/k8-admin/k8-setup.sh <<EOF
 #!/bin/bash
 # As regular user 
 HOME_USER="/home/k8-admin/"
@@ -35,17 +36,17 @@ echo "source <(kubectl completion bash)" >> /home/k8-admin/.bashrc
 
 echo " Execute this command to create a new token : [kubeadm token create --ttl 0 --print-join-command]"
 
-EOF
+EOF'
 
 #Change permission to normal user.
-chown k8-admin:k8-admin /home/k8-admin/k8-setup.sh
+sudo chown k8-admin:k8-admin /home/k8-admin/k8-setup.sh
 
 #Run the k8-setup.sh as regular user k8-admin
-su - k8-admin -c "bash -x /home/k8-admin/k8-setup.sh"
+sudo su k8-admin sh -c 'bash -x /home/k8-admin/k8-setup.sh'
 
 #Deploy the flannel pod network. 
 #The pod network is used for communication between nodes 
-su - k8-admin -c "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
+sudo su k8-admin sh -c 'kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml'
 sudo systemctl restart kubelet
 
 #Wait 1 minute to check pods creation.
@@ -53,4 +54,4 @@ sleep 60
 
 #Validate status of default pods created for kubernetes
 echo "Pods created by kubernetes: \n"
-su - k8-admin -c "kubectl get pod -n kube-system"
+sudo su k8-admin sh -c 'kubectl get pod -n kube-system'
