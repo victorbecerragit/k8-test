@@ -9,7 +9,7 @@ set -x
 project_ID=`gcloud projects list --format='value(projectId)' |grep kube-project`
 
 #Self destruct time
-delete_vm=0
+delete_vm=1440
 
 #Startup_script that will be executed on each VM during the first boot.
 #Install required packages in all VMs, included docker and kubernetes
@@ -49,9 +49,12 @@ sudo swapoff -a
 # Setup docker daemon to use systemd as Cgroup, as default docker use cgroupfs and kubernetes instead recommend to use systemd.
 sudo wget https://raw.githubusercontent.com/victorbecerragit/k8-test/master/docker-daemon.sh -O - | bash -x
 
-# self-destruts VM after 20 minutes
+# self-destruts VM after 24h
 # https://github.com/davidstanke/samples/tree/master/self-destructing-vm
 sudo wget https://raw.githubusercontent.com/victorbecerragit/k8-test/master/self-destruct.sh -O - | bash -x
+
+#Create ssh key for default user 
+sh -c 'echo -e "\n"|ssh-keygen -t rsa -N ""'
 
 EOF
 
