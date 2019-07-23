@@ -1,3 +1,4 @@
+
 # Install Google's Stackdriver logging agent, as per
 # https://cloud.google.com/logging/docs/agent/installation
 #
@@ -33,7 +34,9 @@ sudo swapoff -a
 # Setup docker daemon to use systemd as Cgroup, as default docker use cgroupfs and kubernetes instead recommend to use systemd.
 sudo wget https://raw.githubusercontent.com/victorbecerragit/k8-test/master/docker-daemon.sh -O - | bash -x
 
-# self-destruts VM after 20 minutes
+# self-destruts VM after 24h
 # https://github.com/davidstanke/samples/tree/master/self-destructing-vm
 sudo wget https://raw.githubusercontent.com/victorbecerragit/k8-test/master/self-destruct.sh -O - | bash -x
 
+#Create ssh key for default user 
+sh -c 'echo -e "\n"|ssh-keygen -t rsa -N ""'
